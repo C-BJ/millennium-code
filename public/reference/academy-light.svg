@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
+  <rect width="900" height="1200" fill="#b9b29f"/><rect x="34" y="34" width="832" height="1132" fill="#cec7b4" stroke="#172524" stroke-width="14"/>
+  <g fill="none" stroke="#30504b" stroke-width="7"><path d="M70 145h760M70 1055h760"/><path d="M80 145l75-72 70 72 75-72 75 72 75-72 75 72 75-72 75 72 75-72 70 72"/><path d="M80 1055l75 72 70-72 75 72 75-72 75 72 75-72 75 72 75-72 75 72 70-72"/></g>
+  <g fill="#172523" font-family="serif" text-anchor="middle"><text x="450" y="330" font-size="150" font-weight="700">书院</text><text x="450" y="530" font-size="150" font-weight="700">之光</text><text x="450" y="680" font-size="50" letter-spacing="12">纳于大麓</text><text x="450" y="760" font-size="50" letter-spacing="12">藏之名山</text></g>
+  <g transform="translate(130 820)" fill="none" stroke="#243b38" stroke-width="8"><path d="M0 155L110 0l110 155z"/><circle cx="110" cy="103" r="45"/><path d="M20 155h180M45 185h130"/></g>
+  <g transform="translate(560 805)"><rect width="185" height="185" fill="#96392f"/><path d="M20 20h55v35H55v35h35v35H55v40H20zM110 20h55v55h-35v35h35v55h-55v-35h20V90h-20z" fill="#d7c9aa"/></g>
+  <g fill="#263a37"><circle cx="91" cy="92" r="15"/><rect x="790" y="76" width="30" height="30" transform="rotate(45 805 91)"/><path d="M70 1100l20-35 20 35z"/><path d="M790 1080h35v35h-35z"/></g>
+</svg>
