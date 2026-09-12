@@ -1,3 +1,15 @@
+export interface ContentSource {
+  label: string;
+  url: string;
+}
+
+export interface ImageAttribution {
+  author: string;
+  sourceUrl: string;
+  license: string;
+  licenseUrl?: string;
+}
+
 export interface Monument {
   id: string;
   name: string;
@@ -7,6 +19,10 @@ export interface Monument {
   originalText?: string;
   interpretation?: string;
   audio?: string;
+  /** 展示内容的考据来源。资料卡会把它显示为可点击链接。 */
+  sources?: ContentSource[];
+  /** 网络参考图的作者与许可信息；自拍参考图不需要填写。 */
+  imageAttribution?: ImageAttribution;
 }
 
 export interface Point {

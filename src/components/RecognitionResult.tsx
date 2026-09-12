@@ -12,6 +12,20 @@ export function RecognitionResult({ result, onReset }: { result: Result; onReset
         {monument.originalText && <blockquote>{monument.originalText}</blockquote>}
         {monument.interpretation && <p>{monument.interpretation}</p>}
       </div>}
+      {(monument.sources?.length || monument.imageAttribution) && <div className="source-list">
+        {monument.sources?.map((source) => (
+          <a key={source.url} href={source.url} target="_blank" rel="noreferrer">资料：{source.label}</a>
+        ))}
+        {monument.imageAttribution && (
+          <span>
+            参考图：<a href={monument.imageAttribution.sourceUrl} target="_blank" rel="noreferrer">{monument.imageAttribution.author}</a>
+            {' · '}
+            {monument.imageAttribution.licenseUrl
+              ? <a href={monument.imageAttribution.licenseUrl} target="_blank" rel="noreferrer">{monument.imageAttribution.license}</a>
+              : monument.imageAttribution.license}
+          </span>
+        )}
+      </div>}
       <div className="result-actions"><AudioGuide monument={monument}/><button className="button button-ghost" type="button" onClick={onReset}>重新扫描</button></div>
     </section>
   );

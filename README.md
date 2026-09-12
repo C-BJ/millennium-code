@@ -13,7 +13,7 @@ npm install
 npm run dev
 ```
 
-打开终端显示的地址。桌面浏览器可将 `public/reference/` 下任一 SVG 显示在另一块屏幕上，然后用摄像头扫描测试。类型检查和生产构建：
+打开终端显示的地址。桌面浏览器可将 `public/reference/` 下任一参考图显示在另一块屏幕上，然后用摄像头扫描测试。类型检查和生产构建：
 
 ```bash
 npm run typecheck
@@ -46,6 +46,8 @@ npm run preview
 5. 用开发模式扫描真实目标，同时观察 Debug Panel，再按 `src/config/visionConfig.ts` 的注释调阈值。
 
 参考图应包含稳定的局部纹理。纯色石面、重复回纹、过细且完全相同的竖排字都不利于 ORB；包含文字、裂纹、印章、边缘交点的照片通常更可靠。
+
+项目已内置两项有来源记录的公开素材：麓山寺碑拓片、忠孝廉节碑中的“忠廉”实景裁剪图。史料与图片许可详情见 [docs/MONUMENT_SOURCES.md](docs/MONUMENT_SOURCES.md)。网络实拍图适合验证流程，但到岳麓书院实景拍摄前，仍建议用自己的正面照片替换参考图，以减少视角、光照和游客遮挡造成的差异。
 
 ## Demo Mode
 
