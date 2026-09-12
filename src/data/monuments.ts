@@ -43,22 +43,4 @@ export const monuments: Monument[] = [
       license: 'Public Domain',
     },
   },
-  {
-    id: 'loyalty-integrity-steles',
-    name: '忠孝廉节碑',
-    subtitle: '清刻 · 忠廉二碑',
-    referenceImage: publicAsset('reference/loyalty-integrity-steles.jpg'),
-    description: '“忠孝廉节”四字为南宋乾道三年（1167）朱熹手书。现存四通青石碑由山长欧阳厚均于清道光七年（1827）刊立，分嵌于岳麓书院讲堂南北两壁。',
-    originalText: '忠　孝　廉　节',
-    interpretation: '当前参考图裁取讲堂北壁的“忠”“廉”二碑。实景扫描时请让两块碑尽量同时入镜；若以后分别拍摄四块碑，可拆成四个独立识别目标。',
-    sources: [
-      { label: '岳麓书院官网·书院碑刻', url: 'https://ylsy.hnu.edu.cn/info/1011/9008.htm' },
-    ],
-    imageAttribution: {
-      author: 'WFan（本项目使用裁剪版本）',
-      sourceUrl: 'https://commons.wikimedia.org/wiki/File:%E5%B2%B3%E9%BA%93%E4%B9%A6%E9%99%A2%E5%BF%A0%E5%BB%89_20181012.jpg',
-      license: 'CC BY-SA 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
-    },
-  },
 ];
