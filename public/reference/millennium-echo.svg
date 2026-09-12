@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
-  <rect width="900" height="1200" fill="#d6c9aa"/><rect x="28" y="28" width="844" height="1144" fill="#cabc98" stroke="#211f1a" stroke-width="12"/>
-  <path d="M70 98h760M70 1102h760M112 65v1070M788 65v1070" stroke="#423b2e" stroke-width="5"/>
-  <g fill="none" stroke="#665b45" stroke-width="5" opacity=".75"><path d="M55 180l65-45 55 62 54-83 70 69 66-59 58 81 82-67 58 71 75-86 65 72 80-45"/><path d="M75 1000l80-72 68 55 61-86 77 94 79-64 65 51 74-103 78 92 69-58 88 77"/></g>
-  <g fill="#25221b" font-family="serif" text-anchor="middle"><text x="450" y="310" font-size="142" font-weight="700">千年</text><text x="450" y="505" font-size="142" font-weight="700">回响</text><text x="450" y="655" font-size="54" letter-spacing="18">惟楚有材</text><text x="450" y="740" font-size="54" letter-spacing="18">于斯为盛</text></g>
-  <g stroke="#332e24" stroke-width="8" fill="none"><circle cx="190" cy="850" r="88"/><path d="M125 850h130M190 785v130M143 803l94 94M237 803l-94 94"/><rect x="610" y="796" width="150" height="150"/></g>
-  <g fill="#a13b30"><rect x="628" y="814" width="50" height="50"/><rect x="692" y="814" width="50" height="50"/><rect x="628" y="878" width="50" height="50"/><path d="M705 880h34v48h-48v-28h14z"/></g>
-  <g fill="#4f4737"><circle cx="90" cy="90" r="13"/><circle cx="810" cy="90" r="13"/><circle cx="90" cy="1110" r="13"/><circle cx="810" cy="1110" r="13"/></g>
-</svg>
