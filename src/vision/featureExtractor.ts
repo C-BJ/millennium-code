@@ -13,6 +13,7 @@ export function extractFeatures(cv: OpenCv, gray: CvMat): ExtractedFeatures {
   // 等价做法是构造 ORB 后通过 setter 配置最大特征数。
   const orb = new cv.ORB();
   orb.setMaxFeatures(visionConfig.orbFeatures);
+  orb.setFastThreshold(visionConfig.orbFastThreshold);
   const keypointVector = new cv.KeyPointVector();
   const descriptors = new cv.Mat();
   const mask = new cv.Mat();
@@ -45,6 +46,8 @@ export function imageToGrayMat(cv: OpenCv, image: HTMLImageElement): { gray: CvM
   try {
     cv.resize(rgba, resized, new cv.Size(width, height), 0, 0, cv.INTER_AREA);
     cv.cvtColor(resized, gray, cv.COLOR_RGBA2GRAY);
+    // 参考图与摄像头帧使用相同的灰度均衡化，增强阴影中较浅的碑文和石材纹理。
+    if (visionConfig.equalizeHistogram) cv.equalizeHist(gray, gray);
     return { gray, width, height };
   } catch (error) {
     gray.delete();

@@ -31,6 +31,7 @@ export interface CvDMatchVectorVector extends CvDeletable {
 
 export interface CvOrb extends CvDeletable {
   setMaxFeatures(count: number): void;
+  setFastThreshold(threshold: number): void;
   detectAndCompute(image: CvMat, mask: CvMat, keypoints: CvKeyPointVector, descriptors: CvMat): void;
 }
 
@@ -47,6 +48,7 @@ export interface OpenCv {
   BFMatcher: new (normType?: number, crossCheck?: boolean) => CvMatcher;
   imread(element: HTMLImageElement | HTMLCanvasElement): CvMat;
   cvtColor(source: CvMat, destination: CvMat, code: number): void;
+  equalizeHist(source: CvMat, destination: CvMat): void;
   resize(source: CvMat, destination: CvMat, size: CvSize, fx?: number, fy?: number, interpolation?: number): void;
   matFromArray(rows: number, columns: number, type: number, data: number[]): CvMat;
   findHomography(sourcePoints: CvMat, destinationPoints: CvMat, method: number, threshold: number, mask: CvMat): CvMat;

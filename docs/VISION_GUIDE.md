@@ -39,7 +39,7 @@ ORB 会找角点等局部结构，并为每个点生成二进制 descriptor。�
 - 有限、非退化的 3×3 Homography；
 - 合理、凸、不过度越界的投影四边形。
 
-项目只有全部通过才接受候选。多个候选都通过时，score 为：
+项目只有全部通过才接受候选。四个参考角使用图片真实的 `width × height`，经过 Homography 后可以成为任意合理的凸四边形，并不要求石碑是正方形。多个候选都通过时，score 为：
 
 ```text
 inliers × 2 + inlierRatio × 30 + min(goodMatches, 60) × 0.25
@@ -49,7 +49,7 @@ inliers × 2 + inlierRatio × 30 + min(goodMatches, 60) × 0.25
 
 ## 初始阈值
 
-所有值集中在 `src/config/visionConfig.ts`。当前初值偏向拍摄稳定性：18 个 good matches、12 个 inliers、52% inlier ratio、4px RANSAC 重投影阈值。
+所有值集中在 `src/config/visionConfig.ts`。当前初值偏向更容易捕获真实石碑：14 个 good matches、9 个 inliers、45% inlier ratio、4px RANSAC 重投影阈值。最多允许约 14:1 的长宽比，因此长条楹联和非正方形碑刻可以通过；更极端的细线投影仍会被当作退化结果拒绝。
 
 建议建立固定测试集：每个目标拍 10～20 段不同距离、角度和光照的视频，再准备容易混淆的墙面、其他碑刻作为负样本。每次只改一个阈值。
 

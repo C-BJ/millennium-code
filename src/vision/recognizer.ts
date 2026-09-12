@@ -20,6 +20,7 @@ export function recognizeCanvas(cv: OpenCv, canvas: HTMLCanvasElement, reference
 
   try {
     cv.cvtColor(rgba, gray, cv.COLOR_RGBA2GRAY);
+    if (visionConfig.equalizeHistogram) cv.equalizeHist(gray, gray);
     const features = extractFeatures(cv, gray);
     descriptors.delete();
     descriptors = features.descriptors;

@@ -57,7 +57,7 @@ export function ScannerOverlay({ result, scanning }: ScannerOverlayProps) {
   return (
     <div className="scanner-overlay" aria-hidden="true">
       <canvas ref={canvasRef} />
-      {!result && <div className="target-reticle"><i/><i/><i/><i/><span>请将碑刻完整置于框内</span></div>}
+      {!result && <div className="target-reticle"><i/><i/><i/><i/><span>请保持目标完整可见 · 横竖碑刻均可</span></div>}
       {scanning && !result && <div className="scan-line" />}
       {result && <div className="recognition-stamp"><span>识别完成</span><strong>{result.monument.name}</strong></div>}
     </div>

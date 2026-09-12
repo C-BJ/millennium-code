@@ -35,6 +35,11 @@ export function validateQuadrilateral(
   const signs = corners.map((p, index) => cross(p, corners[(index + 1) % 4]!, corners[(index + 2) % 4]!));
   if (!(signs.every((value) => value > 0) || signs.every((value) => value < 0))) return '投影四边形非凸';
   if (corners.some((p, index) => distance(p, corners[(index + 1) % 4]!) < visionConfig.minProjectedEdgePx)) return '投影边长过短';
+  // 用两组对边的平均长度估计投影长宽比。允许 14:1 的长条碑/楹联，但拒绝接近一条线的退化 Homography。
+  const projectedWidth = (distance(corners[0], corners[1]) + distance(corners[2], corners[3])) / 2;
+  const projectedHeight = (distance(corners[1], corners[2]) + distance(corners[3], corners[0])) / 2;
+  const aspectRatio = Math.max(projectedWidth, projectedHeight) / Math.min(projectedWidth, projectedHeight);
+  if (aspectRatio > visionConfig.maxProjectedAspectRatio) return '投影形状过于狭长';
   const areaRatio = polygonArea(corners) / (frameWidth * frameHeight);
   if (areaRatio < visionConfig.minProjectedAreaRatio || areaRatio > visionConfig.maxProjectedAreaRatio) return '投影面积不合理';
   return null;
