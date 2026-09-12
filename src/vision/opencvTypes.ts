@@ -58,6 +58,14 @@ export interface OpenCv {
   INTER_AREA: number;
 }
 
+/**
+ * 部分 Emscripten/OpenCV.js 构建暴露的是“类 Promise”对象，而非标准 Promise。
+ * 它只保证 runtime 初始化后调用回调，不保证 Promise/A+ 的完整行为。
+ */
+export interface OpenCvThenable {
+  then(onReady: (runtime: OpenCv) => void): unknown;
+}
+
 declare global {
-  interface Window { cv?: OpenCv | Promise<OpenCv> }
+  interface Window { cv?: OpenCv | OpenCvThenable }
 }
