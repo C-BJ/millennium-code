@@ -1,9 +1,9 @@
 export const visionConfig = {
-  // 使用总像素预算而不是固定“宽 640、高 480”。这样同一画面在手机横竖屏下
-  // 都约为 30 万像素，不会出现竖屏只有 270×480、横屏却有 640×360 的清晰度差异。
-  framePixelBudget: 640 * 480,
-  frameMaxLongEdge: 768,
-  detectIntervalMs: 240,
+  // 横竖屏都使用约 52 万像素：典型 16:9 画面约为 960×540（竖屏反过来）。
+  // 它比上一档多约 69% 细节，但仍只有 1080p 的四分之一，适合手机端周期检测。
+  framePixelBudget: 960 * 540,
+  frameMaxLongEdge: 960,
+  detectIntervalMs: 300,
   recognizedIntervalMs: 1_200,
   // 风化石面往往对比度低：增加 ORB 数量并降低 FAST 阈值，以保留更多弱纹理角点。
   orbFeatures: 1_400,

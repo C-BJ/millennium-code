@@ -29,7 +29,7 @@ npm run preview
 - 支持双指捏合预览；放大时 OpenCV 交替识别完整帧和中央高分辨率区域
 - OpenCV.js 脚本、WASM 运行时和参考图库分阶段加载
 - 多参考目标预提取特征，扫描过程中不重复计算
-- 约 30 万像素且横竖屏一致的识别帧、240ms 默认检测周期、不可重入检测
+- 约 52 万像素且横竖屏一致的识别帧、300ms 默认检测周期、不可重入检测
 - ORB + Hamming BFMatcher + KNN + Lowe Ratio Test
 - RANSAC Homography、内点数/比例和投影四边形联合验收
 - 与 `object-fit: cover` 摄像头准确对齐的 Canvas AR 框
