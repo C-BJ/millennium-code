@@ -1,4 +1,4 @@
-import { visionConfig } from '../config/visionConfig';
+import { getTargetVisionConfig, visionConfig } from '../config/visionConfig';
 import type { Monument, Point } from '../types/monument';
 import { extractFeatures, imageToGrayMat } from './featureExtractor';
 import { deleteSafely } from './matUtils';
@@ -38,7 +38,8 @@ export async function buildReferenceCache(
       const converted = imageToGrayMat(cv, image);
       gray = converted.gray;
       if (converted.width < 2 || converted.height < 2 || gray.empty()) throw new Error('图片内容为空');
-      const features = extractFeatures(cv, gray);
+      const targetConfig = getTargetVisionConfig(monument.id);
+      const features = extractFeatures(cv, gray, targetConfig.referenceOrbFeatures);
       if (features.descriptors.empty() || features.keypoints.length < visionConfig.minReferenceKeypoints) {
         features.descriptors.delete();
         throw new Error(`特征点过少（${features.keypoints.length}）`);

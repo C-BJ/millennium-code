@@ -51,6 +51,7 @@ export function estimateHomography(
   scenePoints: Point[],
   referencePoints: Point[],
   referenceSize: { width: number; height: number },
+  ransacReprojectionThreshold: number = visionConfig.ransacReprojectionThreshold,
 ): HomographyResult | null {
   const sourceData: number[] = [];
   const destinationData: number[] = [];
@@ -74,7 +75,7 @@ export function estimateHomography(
   const projectedCorners = new cv.Mat();
 
   try {
-    const calculated = cv.findHomography(source, destination, cv.RANSAC, visionConfig.ransacReprojectionThreshold, mask);
+    const calculated = cv.findHomography(source, destination, cv.RANSAC, ransacReprojectionThreshold, mask);
     homography.delete();
     homography = calculated;
     if (homography.empty()) return null;
