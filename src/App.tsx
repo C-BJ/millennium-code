@@ -12,6 +12,7 @@ type Screen = 'landing' | 'scanner';
 
 function App() {
   const [screen, setScreen] = useState<Screen>('landing');
+  const [visualZoom, setVisualZoom] = useState(1);
   const videoRef = useRef<HTMLVideoElement>(null);
   const vision = useOpenCv();
   const camera = useCamera(videoRef);
@@ -20,10 +21,12 @@ function App() {
     videoRef,
     cv: vision.cv,
     references: vision.references,
+    digitalZoom: visualZoom,
   });
 
   const begin = async () => {
     setScreen('scanner');
+    setVisualZoom(1);
     recognizer.reset();
     await camera.start();
   };
@@ -31,6 +34,7 @@ function App() {
   const exitScanner = () => {
     camera.stop();
     recognizer.reset();
+    setVisualZoom(1);
     setScreen('landing');
   };
 
@@ -67,9 +71,9 @@ function App() {
   const scanning = camera.status === 'ready' && !recognizer.result;
   return (
     <main className="scanner-shell">
-      <CameraView videoRef={videoRef} />
+      <CameraView videoRef={videoRef} zoom={visualZoom} onZoomChange={setVisualZoom} />
       <div className="camera-shade" />
-      <ScannerOverlay result={recognizer.result} scanning={scanning} />
+      <ScannerOverlay result={recognizer.result} scanning={scanning} visualZoom={visualZoom} />
 
       <header className="scanner-header">
         <button className="icon-button" type="button" onClick={exitScanner} aria-label="返回首页">‹</button>

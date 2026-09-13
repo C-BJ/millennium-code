@@ -35,7 +35,8 @@ button:focus-visible { outline: 2px solid #dfc487; outline-offset: 3px; }
 .landing-shell footer { position: absolute; inset: auto 25px max(22px, env(safe-area-inset-bottom)); display: flex; justify-content: space-between; color: rgba(235,231,220,.26); font-size: .62rem; letter-spacing: .13em; }
 
 .scanner-shell { position: relative; height: 100svh; overflow: hidden; background: #050606; }
-.camera-video { position: absolute; width: 100%; height: 100%; object-fit: cover; }
+.camera-stage { position: absolute; inset: 0; overflow: hidden; touch-action: none; }
+.camera-video { position: absolute; width: 100%; height: 100%; object-fit: cover; transition: transform .08s linear; transform-origin: center; will-change: transform; }
 .camera-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(#050707c7 0, transparent 21%, transparent 55%, #070908e6 100%), linear-gradient(90deg, rgba(4,6,6,.25), transparent 20%, transparent 80%, rgba(4,6,6,.25)); }
 .scanner-header { position: absolute; z-index: 4; top: 0; left: 0; width: 100%; padding: max(18px, env(safe-area-inset-top)) 18px 12px; display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 12px; }
 .icon-button { width: 40px; height: 40px; border: 1px solid rgba(236,225,199,.22); border-radius: 50%; background: rgba(8,10,10,.42); backdrop-filter: blur(12px); font-size: 2rem; line-height: 1; cursor: pointer; }

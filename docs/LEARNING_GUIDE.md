@@ -68,6 +68,10 @@ video.srcObject = stream;
 
 识别时，隐藏 Canvas 用 `drawImage(video, ...)` 把当前视频帧变成像素。显示视频仍保持较高分辨率；只有进入 OpenCV 的副本会缩小。因此“画面好看”和“计算量可控”可以同时成立。
 
+### 为什么双指缩放不改变识别帧
+
+`CameraView` 使用 Pointer Events 计算两个触点的距离变化，并通过 CSS `transform: scale()` 放大预览。放大后，`useRecognizer` 在完整帧和中央高分辨率区域之间交替检测：完整帧避免碑刻边缘被永久裁掉，中央帧帮助远处目标保留更多像素。中央帧识别出的角点会先换算回完整帧坐标，再由 `ScannerOverlay` 应用相同的中心缩放，因此边框仍与画面位置一致。
+
 ## 6. 为什么识别循环不用 setInterval
 
 如果一次识别耗时超过 interval，`setInterval` 会继续排队，最终造成卡顿。`useRecognizer` 用递归 `setTimeout`：本轮完成后才安排下一轮，并用 `busyRef` 再加一道不可重入保护。识别成功后周期从 320ms 降到 1200ms。
