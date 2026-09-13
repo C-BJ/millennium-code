@@ -53,16 +53,19 @@ const defaultTargetVisionConfig: TargetVisionConfig = {
 
 const targetVisionOverrides: Record<string, Partial<TargetVisionConfig>> = {
   // 《岳麓书院记》由大量相似的竖排汉字组成，同一字形很容易产生多个含糊候选。
-  // 略微放宽 Ratio Test 来提高召回率，同时要求每个参考特征只被使用一次，
-  // 再由 RANSAC、内点比例和四边形检查兜底，避免仅靠“匹配数量”误报。
+  // 放宽 Ratio Test 来提高召回率，再由 RANSAC、内点比例和四边形检查兜底，
+  // 避免仅靠“匹配数量”误报。这里的参数只影响这一张参考图。
   'academy-history-1': {
-    ratioThreshold: 0.84,
-    minGoodMatches: 10,
-    minInliers: 7,
-    minInlierRatio: 0.38,
-    ransacReprojectionThreshold: 5,
-    referenceOrbFeatures: 2_200,
-    uniqueReferenceMatches: true,
+    // 这一目标是重复纹理非常多的密集碑文。0.90 会保留更多“第一名不够明显”的候选，
+    // 但最终仍必须有至少 5 个 RANSAC 内点并生成合理的投影四边形才会识别成功。
+    ratioThreshold: 0.90,
+    minGoodMatches: 7,
+    minInliers: 5,
+    minInlierRatio: 0.28,
+    ransacReprojectionThreshold: 6,
+    referenceOrbFeatures: 2_600,
+    // 上一版的去重对防误报有帮助，但实拍中也会误删低清晰度画面仅剩的有效匹配。
+    uniqueReferenceMatches: false,
   },
 };
 
