@@ -14,9 +14,15 @@ interface Options {
   digitalZoom: number;
 }
 
+function processingSizeForDimensions(width: number, height: number): { width: number; height: number } {
+  const pixelScale = Math.sqrt(visionConfig.framePixelBudget / (width * height));
+  const edgeScale = visionConfig.frameMaxLongEdge / Math.max(width, height);
+  const scale = Math.min(pixelScale, edgeScale, 1);
+  return { width: Math.max(1, Math.round(width * scale)), height: Math.max(1, Math.round(height * scale)) };
+}
+
 function processingSize(video: HTMLVideoElement): { width: number; height: number } {
-  const scale = Math.min(visionConfig.frameWidth / video.videoWidth, visionConfig.frameHeight / video.videoHeight, 1);
-  return { width: Math.max(1, Math.round(video.videoWidth * scale)), height: Math.max(1, Math.round(video.videoHeight * scale)) };
+  return processingSizeForDimensions(video.videoWidth, video.videoHeight);
 }
 
 export function useRecognizer({ active, videoRef, cv, references, digitalZoom }: Options) {
@@ -60,11 +66,7 @@ export function useRecognizer({ active, videoRef, cv, references, digitalZoom }:
           const sourceHeight = useZoomPass ? video.videoHeight / digitalZoom : video.videoHeight;
           const sourceX = (video.videoWidth - sourceWidth) / 2;
           const sourceY = (video.videoHeight - sourceHeight) / 2;
-          const scale = Math.min(visionConfig.frameWidth / sourceWidth, visionConfig.frameHeight / sourceHeight, 1);
-          const size = {
-            width: Math.max(1, Math.round(sourceWidth * scale)),
-            height: Math.max(1, Math.round(sourceHeight * scale)),
-          };
+          const size = processingSizeForDimensions(sourceWidth, sourceHeight);
           canvas.width = size.width;
           canvas.height = size.height;
           const context = canvas.getContext('2d', { willReadFrequently: true });

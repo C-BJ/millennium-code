@@ -2,6 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type CameraStatus = 'idle' | 'requesting' | 'ready' | 'denied' | 'unavailable' | 'error';
 
+interface FocusCapabilities extends MediaTrackCapabilities {
+  focusMode?: string[];
+}
+
 function classifyCameraError(error: unknown): CameraStatus {
   if (error instanceof DOMException) {
     if (error.name === 'NotAllowedError' || error.name === 'SecurityError') return 'denied';
@@ -44,6 +48,16 @@ export function useCamera(videoRef: React.RefObject<HTMLVideoElement | null>) {
         stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
       }
       streamRef.current = stream;
+      const videoTrack = stream.getVideoTracks()[0];
+      if (videoTrack && typeof videoTrack.getCapabilities === 'function') {
+        const capabilities = videoTrack.getCapabilities() as FocusCapabilities;
+        if (capabilities.focusMode?.includes('continuous')) {
+          // Android Chrome 等浏览器支持连续对焦；不支持的 iOS Safari 会安全跳过。
+          // advanced 中的扩展字段尚未进入所有 TypeScript DOM 类型。
+          const continuousFocus = { focusMode: 'continuous' } as MediaTrackConstraintSet;
+          try { await videoTrack.applyConstraints({ advanced: [continuousFocus] }); } catch { /* 保留浏览器默认对焦 */ }
+        }
+      }
       const video = videoRef.current;
       if (!video) { stream.getTracks().forEach((track) => track.stop()); return; }
       video.srcObject = stream;

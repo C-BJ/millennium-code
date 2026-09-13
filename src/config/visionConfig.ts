@@ -1,8 +1,9 @@
 export const visionConfig = {
-  // 最长边不超过 640、短边不超过 480，避免直接处理手机的 1080p/4K 帧。
-  frameWidth: 640,
-  frameHeight: 480,
-  detectIntervalMs: 320,
+  // 使用总像素预算而不是固定“宽 640、高 480”。这样同一画面在手机横竖屏下
+  // 都约为 30 万像素，不会出现竖屏只有 270×480、横屏却有 640×360 的清晰度差异。
+  framePixelBudget: 640 * 480,
+  frameMaxLongEdge: 768,
+  detectIntervalMs: 240,
   recognizedIntervalMs: 1_200,
   // 风化石面往往对比度低：增加 ORB 数量并降低 FAST 阈值，以保留更多弱纹理角点。
   orbFeatures: 1_400,
@@ -26,6 +27,24 @@ export const visionConfig = {
   demoDelayMs: 1_600,
   demoTargetId: import.meta.env.VITE_DEMO_TARGET ?? 'millennium-echo',
 } as const;
+
+export interface RecognitionThresholds {
+  minGoodMatches: number;
+  minInliers: number;
+  minInlierRatio: number;
+}
+
+/** 只降低最终验收门槛，不改变 ORB、KNN、Ratio Test 或 Homography 算法。 */
+export function getRecognitionThresholds(monumentId: string): RecognitionThresholds {
+  if (monumentId === 'academy-history-1') {
+    return { minGoodMatches: 10, minInliers: 6, minInlierRatio: 0.30 };
+  }
+  return {
+    minGoodMatches: visionConfig.minGoodMatches,
+    minInliers: visionConfig.minInliers,
+    minInlierRatio: visionConfig.minInlierRatio,
+  };
+}
 
 /**
  * 调参顺序建议：

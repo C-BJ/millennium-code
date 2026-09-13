@@ -1,4 +1,4 @@
-import { visionConfig } from '../config/visionConfig';
+import { getRecognitionThresholds, visionConfig } from '../config/visionConfig';
 import type { MatchMetrics, RecognitionDebug, RecognitionResult } from '../types/monument';
 import { extractFeatures } from './featureExtractor';
 import { estimateHomography, validateQuadrilateral } from './homography';
@@ -30,13 +30,14 @@ export function recognizeCanvas(cv: OpenCv, canvas: HTMLCanvasElement, reference
     }
 
     for (const reference of references) {
+      const thresholds = getRecognitionThresholds(reference.monument.id);
       const good = findGoodMatches(cv, descriptors, reference.descriptors);
       let inliers = 0;
       let inlierRatio = 0;
       let corners: RecognitionResult['corners'] | null = null;
       let rejectionReason: string | undefined;
 
-      if (good.length >= visionConfig.minGoodMatches) {
+      if (good.length >= thresholds.minGoodMatches) {
         const geometry = estimateHomography(cv, good, features.keypoints, reference.keypoints, reference);
         if (geometry) {
           inliers = geometry.inliers;
@@ -46,9 +47,9 @@ export function recognizeCanvas(cv: OpenCv, canvas: HTMLCanvasElement, reference
         } else rejectionReason = 'Homography 计算失败';
       } else rejectionReason = '有效匹配不足';
 
-      const accepted = good.length >= visionConfig.minGoodMatches
-        && inliers >= visionConfig.minInliers
-        && inlierRatio >= visionConfig.minInlierRatio
+      const accepted = good.length >= thresholds.minGoodMatches
+        && inliers >= thresholds.minInliers
+        && inlierRatio >= thresholds.minInlierRatio
         && corners !== null
         && !rejectionReason;
       // 几何一致性占主导：inlier 数量与比例权重高于原始匹配数量。
