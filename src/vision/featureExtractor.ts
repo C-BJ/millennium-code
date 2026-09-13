@@ -8,11 +8,11 @@ export interface ExtractedFeatures {
   keypoints: Point[];
 }
 
-export function extractFeatures(cv: OpenCv, gray: CvMat, maxFeatures: number = visionConfig.orbFeatures): ExtractedFeatures {
+export function extractFeatures(cv: OpenCv, gray: CvMat): ExtractedFeatures {
   // 当前采用的 OpenCV.js 4.x 构建没有暴露 C++ 的 ORB::create 静态方法，
   // 等价做法是构造 ORB 后通过 setter 配置最大特征数。
   const orb = new cv.ORB();
-  orb.setMaxFeatures(maxFeatures);
+  orb.setMaxFeatures(visionConfig.orbFeatures);
   orb.setFastThreshold(visionConfig.orbFastThreshold);
   const keypointVector = new cv.KeyPointVector();
   const descriptors = new cv.Mat();
