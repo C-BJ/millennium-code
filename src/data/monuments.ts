@@ -18,8 +18,8 @@ export const monuments: Monument[] = [
     id: 'academy-history-1',
     name: '岳麓书院记',
     subtitle: '书法',
-    // 裁剪版去掉椅背和大部分外框，ORB 会把特征预算集中在真正的碑文区域。
-    referenceImage: publicAsset('reference/history-1-focus.png'),
+    // 使用完整原图，使参考图边界、横向比例和实拍时看到的整块碑文保持一致。
+    referenceImage: publicAsset('reference/history-1.png'),
     description: '两宋之际的战乱使岳麓书院遭到严重破坏。到了南宋乾道元年，即1165年，湖南安抚使刘珙主持重修岳麓书院。第二年，张栻开始主持岳麓书院教学，并撰写《岳麓书院记》，一方面记录书院从创建、兴盛、毁坏到重建的过程，另一方面借此系统说明书院究竟应该培养什么样的人。',
     originalText: '盖欲成就人才，以传道而济斯民也。',
     interpretation: '办书院的目的，是培养人才，使其能够传承儒家之“道”，并真正服务社会、造福百姓。',
