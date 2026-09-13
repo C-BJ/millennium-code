@@ -60,7 +60,7 @@ export function CameraView({ videoRef, digitalZoom, zoomValue, zoomMin, zoomMax,
         autoPlay
         muted
         playsInline
-        aria-label="实时摄像头画面，可双指缩放"
+        aria-label="实时摄像头画面"
       />
     </div>
   );

@@ -3,7 +3,6 @@ import { CameraView } from './components/CameraView';
 import { DebugPanel } from './components/DebugPanel';
 import { RecognitionResult } from './components/RecognitionResult';
 import { ScannerOverlay } from './components/ScannerOverlay';
-import { ZoomControl } from './components/ZoomControl';
 import { visionConfig } from './config/visionConfig';
 import { useCamera } from './hooks/useCamera';
 import { useOpenCv } from './hooks/useOpenCv';
@@ -95,7 +94,6 @@ function App() {
       )}
 
       {scanning && <div className="scan-status"><span className="pulse-dot"/><div><strong>{recognizer.hasScanned ? '正在识别' : '正在读取画面'}</strong><small>{recognizer.hasScanned ? '移动缓慢一些，保持碑刻完整可见' : '正在校准特征点…'}</small></div></div>}
-      {camera.status === 'ready' && !recognizer.result && <ZoomControl zoom={camera.zoom} onChange={camera.setZoom} />}
       {recognizer.result && <RecognitionResult result={recognizer.result} onReset={recognizer.reset}/>} 
       {visionConfig.demoMode && <span className="demo-badge">拍摄演示模式</span>}
       <DebugPanel debug={recognizer.debug}/>

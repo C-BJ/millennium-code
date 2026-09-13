@@ -70,7 +70,7 @@ video.srcObject = stream;
 
 ### 摄像头缩放为什么有两种模式
 
-`MediaStreamTrack.getCapabilities()` 可以查询部分手机摄像头是否暴露了 `zoom` 范围。如果支持，`useCamera()` 会调用 `track.applyConstraints()` 调整真实镜头，界面显示“镜头变焦”。这种方式不会额外损失图像清晰度。
+`MediaStreamTrack.getCapabilities()` 可以查询部分手机摄像头是否暴露了 `zoom` 范围。如果支持，`useCamera()` 会调用 `track.applyConstraints()` 调整真实镜头。这种方式不会额外损失图像清晰度。
 
 部分 iPhone、Android 浏览器不会把硬件变焦开放给网页。此时项目回退为“数字变焦”：`CameraView` 用 CSS 放大视频，而 `useRecognizer` 用 Canvas 的九参数 `drawImage()` 裁取原视频中央的同一区域。两边必须同步，否则用户看到的是放大画面，OpenCV 却仍在识别整张画面，最终四边形会发生错位。
 
@@ -80,7 +80,7 @@ video.srcObject = stream;
 nextZoom = startZoom * currentDistance / startDistance;
 ```
 
-最后把结果限制在摄像头提供的最小、最大倍率之间。缩放条和加减按钮最终也调用同一个 `setZoom()`，因此三种操作方式不会产生互相独立的状态。
+最后把结果限制在摄像头提供的最小、最大倍率之间。页面不显示额外缩放控件，只保留相机画面上的双指手势。
 
 ## 6. 为什么识别循环不用 setInterval
 
