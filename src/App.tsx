@@ -15,13 +15,11 @@ function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const vision = useOpenCv();
   const camera = useCamera(videoRef);
-  const digitalZoom = camera.zoom.mode === 'digital' ? camera.zoom.value : 1;
   const recognizer = useRecognizer({
     active: screen === 'scanner' && camera.status === 'ready',
     videoRef,
     cv: vision.cv,
     references: vision.references,
-    digitalZoom,
   });
 
   const begin = async () => {
@@ -69,14 +67,7 @@ function App() {
   const scanning = camera.status === 'ready' && !recognizer.result;
   return (
     <main className="scanner-shell">
-      <CameraView
-        videoRef={videoRef}
-        digitalZoom={digitalZoom}
-        zoomValue={camera.zoom.value}
-        zoomMin={camera.zoom.min}
-        zoomMax={camera.zoom.max}
-        onZoomChange={camera.setZoom}
-      />
+      <CameraView videoRef={videoRef} />
       <div className="camera-shade" />
       <ScannerOverlay result={recognizer.result} scanning={scanning} />
 

@@ -68,20 +68,6 @@ video.srcObject = stream;
 
 识别时，隐藏 Canvas 用 `drawImage(video, ...)` 把当前视频帧变成像素。显示视频仍保持较高分辨率；只有进入 OpenCV 的副本会缩小。因此“画面好看”和“计算量可控”可以同时成立。
 
-### 摄像头缩放为什么有两种模式
-
-`MediaStreamTrack.getCapabilities()` 可以查询部分手机摄像头是否暴露了 `zoom` 范围。如果支持，`useCamera()` 会调用 `track.applyConstraints()` 调整真实镜头。这种方式不会额外损失图像清晰度。
-
-部分 iPhone、Android 浏览器不会把硬件变焦开放给网页。此时项目回退为“数字变焦”：`CameraView` 用 CSS 放大视频，而 `useRecognizer` 用 Canvas 的九参数 `drawImage()` 裁取原视频中央的同一区域。两边必须同步，否则用户看到的是放大画面，OpenCV 却仍在识别整张画面，最终四边形会发生错位。
-
-双指缩放使用 Pointer Events，同时追踪两个触点并计算它们的距离比：
-
-```ts
-nextZoom = startZoom * currentDistance / startDistance;
-```
-
-最后把结果限制在摄像头提供的最小、最大倍率之间。页面不显示额外缩放控件，只保留相机画面上的双指手势。
-
 ## 6. 为什么识别循环不用 setInterval
 
 如果一次识别耗时超过 interval，`setInterval` 会继续排队，最终造成卡顿。`useRecognizer` 用递归 `setTimeout`：本轮完成后才安排下一轮，并用 `busyRef` 再加一道不可重入保护。识别成功后周期从 320ms 降到 1200ms。

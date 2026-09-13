@@ -11,17 +11,14 @@ interface Options {
   videoRef: React.RefObject<HTMLVideoElement | null>;
   cv?: OpenCv;
   references: ReferenceFeatures[];
-  digitalZoom: number;
 }
 
-function processingSize(video: HTMLVideoElement, digitalZoom: number): { width: number; height: number } {
-  const sourceWidth = video.videoWidth / digitalZoom;
-  const sourceHeight = video.videoHeight / digitalZoom;
-  const scale = Math.min(visionConfig.frameWidth / sourceWidth, visionConfig.frameHeight / sourceHeight, 1);
-  return { width: Math.max(1, Math.round(sourceWidth * scale)), height: Math.max(1, Math.round(sourceHeight * scale)) };
+function processingSize(video: HTMLVideoElement): { width: number; height: number } {
+  const scale = Math.min(visionConfig.frameWidth / video.videoWidth, visionConfig.frameHeight / video.videoHeight, 1);
+  return { width: Math.max(1, Math.round(video.videoWidth * scale)), height: Math.max(1, Math.round(video.videoHeight * scale)) };
 }
 
-export function useRecognizer({ active, videoRef, cv, references, digitalZoom }: Options) {
+export function useRecognizer({ active, videoRef, cv, references }: Options) {
   const captureCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const busyRef = useRef(false);
   const resultRef = useRef<RecognitionResult | null>(null);
@@ -53,18 +50,12 @@ export function useRecognizer({ active, videoRef, cv, references, digitalZoom }:
         try {
           const canvas = captureCanvasRef.current ?? document.createElement('canvas');
           captureCanvasRef.current = canvas;
-          const size = processingSize(video, digitalZoom);
+          const size = processingSize(video);
           canvas.width = size.width;
           canvas.height = size.height;
           const context = canvas.getContext('2d', { willReadFrequently: true });
           if (!context) throw new Error('Canvas 2D context 不可用');
-          // 数字缩放时，Canvas 必须裁取和 CSS 放大后屏幕上完全相同的中心区域。
-          // 否则 OpenCV 看到的是整张原始画面，Homography 四边形会与用户看到的碑刻错位。
-          const sourceWidth = video.videoWidth / digitalZoom;
-          const sourceHeight = video.videoHeight / digitalZoom;
-          const sourceX = (video.videoWidth - sourceWidth) / 2;
-          const sourceY = (video.videoHeight - sourceHeight) / 2;
-          context.drawImage(video, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, size.width, size.height);
+          context.drawImage(video, 0, 0, size.width, size.height);
           const output = recognizeCanvas(cv, canvas, references);
           if (!cancelled) {
             setDebug(output.debug);
@@ -84,7 +75,7 @@ export function useRecognizer({ active, videoRef, cv, references, digitalZoom }:
     };
     detect();
     return () => { cancelled = true; if (timeoutId) window.clearTimeout(timeoutId); busyRef.current = false; };
-  }, [active, cv, references, videoRef, digitalZoom]);
+  }, [active, cv, references, videoRef]);
 
   // 拍摄用保险模式完全绕过 OpenCV 分支，避免改变真实算法及其调参数据。
   useEffect(() => {
